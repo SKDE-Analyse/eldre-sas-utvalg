@@ -12,7 +12,7 @@ set &datasett;
 innlegg = .;
 poli = .;
 
-If behandlingsniva3 = 1 and Liggetid ge 1  then innlegg = 1;
+If behandlingsniva3 = 1 and Liggetid ge 1 then innlegg = 1;
 else if behandlingsniva3 = 1 and uttilstand in (2, 3) then innlegg = 1; * ut som død eller selvmord;
 else if (behandlingsniva3 = 1 and Liggetid=0) or Behandlingsniva3=2 then poli = 1;
 else if Behandlingsniva3 = 3 then poli = 1;
@@ -109,7 +109,7 @@ set &datasett;
 array diagnose {*} Hdiag:;
 	do i=1 to dim(diagnose);
 		if substr(diagnose{i},1,4) in ('J100','J110', 'J690') then lungebet=1;
-		if substr(diagnose{i},1,3) in ('J12','J12', 'J13','J14','J15', 'J16','J17','J18', 'J22') then lungebet=1;
+		if substr(diagnose{i},1,3) in ('J12', 'J13','J14','J15', 'J16','J17','J18', 'J22') then lungebet=1;
   end;
 
 run;
@@ -230,6 +230,11 @@ run;
 
 data &datasett;
 set &datasett;
+drop laarhals: prot: annen:;
+run;
+
+data &datasett;
+set &datasett;
 
 array diagnose {*} Hdiag: Bdiag:;
      do i=1 to dim(diagnose);
@@ -238,20 +243,18 @@ array diagnose {*} Hdiag: Bdiag:;
 
 array Prosedyre {*} NC:;
     do i=1 to dim(prosedyre); 
-		if substr(prosedyre{i},1,5) in ('NFJ20','NFJ30','NFJ40','NFJ50','NFJ60','NFJ70','NFJ80','NFJ90','NFB02','NFB11','NFB20','NFB30','NFB40','NFB59') then AnnenPros_Laarhals=1;
- 		if substr(prosedyre{i},1,5) in ('NFB02', 'NFB12') then DistalSemiProtese=1;
+		if substr(prosedyre{i},1,5) in ('NFJ60','NFJ70') then AnnenPros_Laarhals=1;
+ 		if substr(prosedyre{i},1,3) in ('NFB') then Protese=1;
 end;
 
-	if DistalSemiProtese=1 and AnnenPros_Laarhals = 1 then AnnenPros_Laarhals = .;
+/*	if DistalSemiProtese=1 and AnnenPros_Laarhals = 1 then AnnenPros_Laarhals = .;*/
 
-data &datasett;
-set &datasett;
 
-	if laarhalsbrudd_diag = 1 and (AnnenPros_Laarhals=1 or DistalSemiProtese=1)  then laarhals_tot = 1;
-	if laarhalsbrudd_diag = 1 and DistalSemiProtese=1 then laarhals_prot = 1;
+	if laarhalsbrudd_diag = 1 and (AnnenPros_Laarhals=1 or Protese=1)  then laarhals_tot = 1;
+	if laarhalsbrudd_diag = 1 and Protese=1 then laarhals_prot = 1;
 	if laarhalsbrudd_diag = 1 and AnnenPros_Laarhals=1 then laarhals_annen = 1;
 
-drop AnnenPros_Laarhals laarhalsbrudd_diag DistalSemiProtese;
+drop AnnenPros_Laarhals laarhalsbrudd_diag Protese;
 
 run;
 
@@ -560,15 +563,16 @@ set &datasett;
 array prosedyre {*} NC:;
   do i=1 to dim(prosedyre);
     if substr(prosedyre{i},1,6) = 'WEOA00' then Straale =1;
-    if substr(prosedyre{i},1,6) = 'WEOB05' then Bracky =1
+    if substr(prosedyre{i},1,6) = 'WEOB05' then Bracky =1;
   end;
 run;
 
 data &datasett;
 set &datasett;
 array diagnose {*} Hdiag: Bdiag:;
-if substr(diagnose{i},1,3) in ('C20','C19') then RectumKreft=1;
-if substr(diagnose{i},1,3) in ('C50') then BrystKreft=1;
+do i=1 to dim(diagnose);
+	if substr(diagnose{i},1,3) in ('C20','C19') then RectumKreft=1;
+	if substr(diagnose{i},1,3) in ('C50') then BrystKreft=1;
 end;
 run;
 
@@ -580,11 +584,11 @@ data &datasett;
 set &datasett;
   by Straale pid inndato utdato;
   if Straale = 1 then do;
-    if first.pid=1 then do
+    if first.pid=1 then do;
       oppholdsnr_Straale=0;
       num_beh = 1;
     end;
-    if first.pid ne 1 and (inndato - lag(utdato)) ge 14 then do
+    if first.pid ne 1 and (inndato - lag(utdato)) ge 14 then do;
       oppholdsnr_Straale=0;
       num_beh + 1;
     end;
@@ -600,11 +604,11 @@ data &datasett;
 set &datasett;
   by descending Straale PID num_beh;
     if straale = 1 then do;
-      if first.PID=1 then do
+      if first.PID=1 then do;
         Antall_Straale=oppholdsnr_Straale;
         unik_beh = 1;
       end;
-      if first.PID ne 1 and num_beh ne lag(num_beh) then do 
+      if first.PID ne 1 and num_beh ne lag(num_beh) then do; 
         Antall_Straale=oppholdsnr_Straale;
         unik_beh = 1;
       end;
@@ -632,7 +636,7 @@ set &datasett;
     drop num_beh;
   end;
 
-Drop lag: opph: ant: unik: straale bracky rectum: bryst:
+Drop lag: opph: ant: unik: straale bracky rectum: bryst:;
 run;
 
 
