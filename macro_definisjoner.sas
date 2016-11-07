@@ -1,4 +1,3 @@
-
 %macro innlegg_poli(datasett = );
 /* 
 Todeling av datasettet:
@@ -12,49 +11,33 @@ set &datasett;
 innlegg = .;
 poli = .;
 
-If behandlingsniva3 = 1 and Liggetid ge 1 then innlegg = 1;
-else if behandlingsniva3 = 1 and uttilstand in (2, 3) then innlegg = 1; * ut som død eller selvmord;
-else if (behandlingsniva3 = 1 and Liggetid=0) or Behandlingsniva3=2 then poli = 1;
-else if Behandlingsniva3 = 3 then poli = 1;
+If aktivitetskategori3 = 1 and Liggetid ge 1 then innlegg = 1;
+else if aktivitetskategori3 = 1 and uttilstand in (2, 3) then innlegg = 1; * ut som død eller selvmord;
+else if (aktivitetskategori3 = 1 and Liggetid=0) or aktivitetskategori3=2 then poli = 1;
+else if aktivitetskategori3 = 3 then poli = 1;
 
 run;
 
-%mend;
+%mend innlegg_poli;
+
 
 
 %macro leggTilFraAvdFil(dsn = );
 
 /* Legge inn prosedyrer fra avd. fil */
 
-proc sql;
-create table &dsn as
-select *
-from &dsn left join tarzan.nc_prosedyrer_2012f_avd
-on &dsn..pid=nc_prosedyrer_2012f_avd.pid and &dsn..aggrshoppID=nc_prosedyrer_2012f_avd.aggrshoppID;
-quit; title;
-
-
-proc sql;
-create table &dsn as
-select *
-from &dsn left join tarzan.nc_prosedyrer_2013f_avd
-on &dsn..pid=nc_prosedyrer_2013f_avd.pid and &dsn..aggrshoppID=nc_prosedyrer_2013f_avd.aggrshoppID;
-quit; title;
-
-proc sql;
-create table &dsn as
-select *
-from &dsn left join tarzan.nc_prosedyrer_2014f_avd
-on &dsn..pid=nc_prosedyrer_2014f_avd.pid and &dsn..aggrshoppID=nc_prosedyrer_2014f_avd.aggrshoppID;
-quit; title;
-
 
 data avd;
-set tarzan.tarzan2012_avd tarzan.tarzan2013_avd tarzan.tarzan2014_avd;
+set npr_skde.magnus_avd_2013 npr_skde.magnus_avd_2014 npr_skde.magnus_avd_2015;
+keep hdiag hdiag2 nc: pid koblingsID aar;
+where alder>74;
 run;
 
+%VarFraParvus (dsnMagnus=avd, var_som=aggrshoppID niva, var_avtspes=);
+
+
 /*Henter Hdiag fra avdelingsoppholdsfil og legger dem til*/
-%UnikeVariableAvdOpphold(variabler=Hdiag:, dsn=avd, prefix=hdiagAvd, extrawhere=);
+%UnikeVariableAvdOpphold(variabler=Hdiag hdiag2, dsn=avd, prefix=hdiagAvd, extrawhere=);
 
 
 proc sql;
@@ -64,8 +47,23 @@ from &dsn left join avd_hdiagAvd
 on &dsn..pid=avd_hdiagAvd.pid and &dsn..aggrshoppID=avd_hdiagAvd.aggrshoppID;
 quit; title;
 
+
+
+
+/*Henter Hdiag fra avdelingsoppholdsfil og legger dem til*/
+
+%UnikeVariableAvdOpphold(variabler=NC:, dsn=avd, prefix=NC_Avd, extrawhere=);
+
+
+proc sql;
+create table &dsn as
+select *
+from &dsn left join avd_NC_Avd
+on &dsn..pid=avd_NC_Avd.pid and &dsn..aggrshoppID=avd_NC_Avd.aggrshoppID;
+quit; title;
+
 Proc datasets nolist;
-delete avd avd_hdiagAvd;
+delete avd:;
 run;
 
 %mend leggTilFraAvdFil;
@@ -80,8 +78,8 @@ data &datasett;
 set &datasett;
   elektiv = .;
   ohjelp = .;
-  if innmatehast = 4 then elektiv = 1;
-  if innmatehast in (1, 2, 3) then ohjelp = 1;
+  if hastegrad = 4 then elektiv = 1;
+  if hastegrad = 1 then ohjelp = 1;
 run;
 
 %mend ohjelp_elektiv;
@@ -198,7 +196,7 @@ array diagnose {*} Hdiag:;
 	if J44_B=1 and J96=1 /* Respirasjonssvikt, ikas */ then utvalg_1=1;
 
 /* Utvalg 12 */
-	if utvalg_1=1 and innmateHast ne 4 and (liggetid>0 or utTilstand=2) then kols=1;
+	if utvalg_1=1 and hastegrad ne 4 and (liggetid>0 or utTilstand=2) then kols=1;
 	drop j: utvalg:;
 
 run;
@@ -246,9 +244,6 @@ array Prosedyre {*} NC:;
 		if substr(prosedyre{i},1,5) in ('NFJ60','NFJ70') then AnnenPros_Laarhals=1;
  		if substr(prosedyre{i},1,3) in ('NFB') then Protese=1;
 end;
-
-/*	if DistalSemiProtese=1 and AnnenPros_Laarhals = 1 then AnnenPros_Laarhals = .;*/
-
 
 	if laarhalsbrudd_diag = 1 and (AnnenPros_Laarhals=1 or Protese=1)  then laarhals_tot = 1;
 	if laarhalsbrudd_diag = 1 and Protese=1 then laarhals_prot = 1;
@@ -303,19 +298,6 @@ run;
 %mend parkinson;
 
 
-%macro parkinson_m_bdiag(datasett = );
-
-data &datasett;
-set &datasett;
-
-array diagnose {*} Hdiag: Bdiag:;
-	do i=1 to dim(diagnose);
-		if substr(diagnose{i},1,3) in  ('G20') then Parkinson_m_bdiag=1;
- 	end;
-run;
-
-%mend parkinson_m_bdiag;
-
 
 %macro hjerteinfrakt(datasett = );
 
@@ -343,29 +325,16 @@ set &datasett;
 array diagnose {*} Hdiag:;
      do i=1 to dim(diagnose);
      if substr(diagnose {i},1,3)in ('G30','F00','F01' ,'F02','F03','F04','F05')  then Demens=1;
-          if substr(diagnose{i},1,5) in ('Z5089') then Demens_tillegg=1;
+         if substr(diagnose{i},1,5) in ('Z5089') then Demens_tillegg=1;
          if substr(diagnose{i},1,4) in ('Z509', 'F067') then Demens_tillegg=1;
      end;
 
 array bdiagnose {*}  Bdiag:;
      do i=1 to dim(bdiagnose);
-    if substr(bdiagnose {i},1,3)in ('G30','F00','F01' ,'F02','F03','F04','F05')  then Demens_BDiag=1;
+    	if substr(bdiagnose {i},1,3)in ('G30','F00','F01' ,'F02','F03','F04','F05')  then Demens_BDiag=1;
     end;
 
 if Demens_BDiag=1 and Demens_tillegg=1 then Demens=1 ;
-
-/*array diagnose {*} Hdiag:;*/
-/*	do i=1 to dim(diagnose);*/
-/*		 if substr(diagnose {i},1,3)='G30' then AlzheimersSykdom=1;*/
-/*         if substr(diagnose {i},1,3)='F00' then AlzheimersDemens=1;*/
-/*         if substr(diagnose {i},1,3)='F01' then VaskulærDemens=1;*/
-/*         if substr(diagnose {i},1,3)='F02' then DemensAnnensykdom=1;*/
-/*		 if substr(diagnose {i},1,3)='F03' then AnnenDemens=1;*/
-/*		 if substr(diagnose {i},1,3)='F04' then HukommelsesSvikt=1;*/
-/*		 if substr(diagnose {i},1,3)='F05' then Delirium=1;*/
-/*	end;*/
-/*    if AlzheimersSykdom=1 or AlzheimersDemens=1 or VaskulærDemens=1 or DemensAnnensykdom=1 or AnnenDemens=1 then Demens=1;*/
-/*run;*/
 
 run;
 
