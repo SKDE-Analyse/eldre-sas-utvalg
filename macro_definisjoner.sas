@@ -22,7 +22,7 @@ run;
 
 
 
-%macro leggTilFraAvdFil(dsn = );
+%macro leggTilFraAvdFil(data = );
 
 /* Legge inn prosedyrer fra avd. fil */
 
@@ -41,10 +41,10 @@ run;
 
 
 proc sql;
-create table &dsn as
+create table &data as
 select *
-from &dsn left join avd_hdiagAvd
-on &dsn..pid=avd_hdiagAvd.pid and &dsn..aggrshoppID=avd_hdiagAvd.aggrshoppID;
+from &data left join avd_hdiagAvd
+on &data..pid=avd_hdiagAvd.pid and &data..aggrshoppID=avd_hdiagAvd.aggrshoppID;
 quit; title;
 
 
@@ -56,10 +56,10 @@ quit; title;
 
 
 proc sql;
-create table &dsn as
+create table &data as
 select *
-from &dsn left join avd_NC_Avd
-on &dsn..pid=avd_NC_Avd.pid and &dsn..aggrshoppID=avd_NC_Avd.aggrshoppID;
+from &data left join avd_NC_Avd
+on &data..pid=avd_NC_Avd.pid and &data..aggrshoppID=avd_NC_Avd.aggrshoppID;
 quit; title;
 
 Proc datasets nolist;
@@ -476,7 +476,7 @@ array prosedyre {*} NC:;
 	
 	array takst {15} Normaltariff:;
 	do k = 1 to 15;
-		if substr (takst {k}, 1,4) in ('129e','129d') then  Ekko = 1; 
+		if substr (takst {k}, 1,4) in ('129e','129d','129i') then  Ekko = 1; 
 	end;
 	
 run; 
@@ -611,3 +611,64 @@ run;
 
 
 %mend straaling;
+
+
+
+%macro graastaer(datasett =);
+
+
+
+data &datasett;
+set &datasett;
+
+array diagnose {*} Hdiag: Bdiag:;
+     do i=1 to dim(diagnose);
+         if substr(diagnose{i},1,3) in ('H25') then graastaer_diag=1;
+     end;
+
+array Prosedyre {*} NC:;
+    do i=1 to dim(prosedyre); 
+		if substr(prosedyre{i},1,5) in ('CJE20') then graastaer_pros=1;  /*Også CJE25?*/
+end;
+
+array takst {15} Normaltariff:;
+	do k = 1 to 15;
+		if substr (takst {k}, 1,4) in ('K01a') then graastaer_takst = 1;
+	end;
+
+	if graastaer_diag = 1 and graastaer_pros  then Graastaer_opr_pros = 1;
+	if graastaer_diag = 1 and graastaer_takst=1 then Graastaer_opr_takst = 1;
+	if Graastaer_opr_pros = 1 or Graastaer_opr_takst = 1 then Graastaer_opr = 1;	
+
+run;
+
+%mend graastaer;
+
+
+%macro bentetthet (datasett=);
+
+data &datasett;
+set &datasett;
+
+array prosedyre {*} NC:;
+  do i=1 to dim(prosedyre);
+    if substr(prosedyre{i},1,6) in ('NXFX05') then bentetthet=1;
+  end;
+
+
+%mend bentetthet;
+
+
+
+%macro gastroskopi (datasett=);
+
+data &datasett;
+set &datasett;
+
+array prosedyre {*} NC:;
+  do i=1 to dim(prosedyre);
+    if substr(prosedyre{i},1,6) in ('UJD02', 'UJD05') then gastroskopi=1;
+  end;
+
+
+%mend gastroskopi;

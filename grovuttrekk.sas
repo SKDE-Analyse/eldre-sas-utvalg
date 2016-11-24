@@ -1,5 +1,5 @@
 
-/* Data fra 2013 til 2014 leses inn */
+/* Data fra 2013 til 2015 leses inn */
 
 Data off_sh;
 set npr_skde.magnus_sho_2013 npr_skde.magnus_sho_2014 npr_skde.magnus_sho_2015;
@@ -7,10 +7,13 @@ where alder > 74;
 off = 1;
 run;
 
+%VarFraParvus (dsnMagnus=off_sh, var_som=aggrshoppID niva, var_avtspes=);
+
+
 /* Legge inn prosedyrer fra avd. fil */
 
 
-%leggTilFraAvdFil(dsn = off_sh);
+%leggTilFraAvdFil(data = off_sh);
 
 
 * Sette de private sykehus til priv;
@@ -42,9 +45,9 @@ run;
 %ohjelp_elektiv(datasett = alle_75pluss);
 
 
-Proc datasets nolist;
-delete off_sh avt_spes;
-run;
+/*Proc datasets nolist;*/
+/*delete off_sh avt_spes;*/
+/*run;*/
 
 data npr_utva.EA_alle_75pluss;
 set alle_75pluss;
