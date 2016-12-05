@@ -2,18 +2,19 @@
 /* Data fra 2013 til 2015 leses inn */
 
 Data off_sh;
-set npr_skde.magnus_sho_2013 npr_skde.magnus_sho_2014 npr_skde.magnus_sho_2015;
-where alder > 74;
+set npr_skde.magnus_avd_2012 npr_skde.magnus_avd_2013 npr_skde.magnus_avd_2014 npr_skde.magnus_avd_2015;
+where alder > 73;
 off = 1;
 run;
 
-%VarFraParvus (dsnMagnus=off_sh, var_som=aggrshoppID niva cyto_1, var_avtspes=);
+%VarFraParvus (dsnMagnus=off_sh, var_som=cyto_1 inntid uttid, var_avtspes=);
 
+%episode_of_care(dsn=off_sh);
 
-/* Legge inn prosedyrer fra avd. fil */
-
-
-%leggTilFraAvdFil(data = off_sh);
+Data off_sh;
+set off_sh;
+where eoc_aar ne 2012 and eoc_alder > 74;
+run;
 
 
 * Sette de private sykehus til priv;
