@@ -68,7 +68,7 @@ set &datasett;
     		DagerMellomHjerneslag=Inndato-Lag_Inndato;
 		end;
 	If DagerMellomHjerneslag ne . and DagerMellomHjerneslag LT 28 then Hjerneslag28Inn=.;
-	if Hjerneslag28Inn=1 and akutt=1 then AkuttHjerneslag28Inn=1;
+	if Hjerneslag28Inn=1 and ohjelp=1 then AkuttHjerneslag28Inn=1;
 	AkuttHjerneslag=AkuttHjerneslag28Inn;
 
 drop lag: hjerneslag28inn DagerMellomHjerneslag AkuttHjerneslag28Inn

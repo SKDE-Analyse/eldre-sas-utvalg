@@ -7,7 +7,7 @@ where alder > 74;
 off = 1;
 run;
 
-%VarFraParvus (dsnMagnus=off_sh, var_som=aggrshoppID niva, var_avtspes=);
+%VarFraParvus (dsnMagnus=off_sh, var_som=aggrshoppID niva cyto_1, var_avtspes=);
 
 
 /* Legge inn prosedyrer fra avd. fil */

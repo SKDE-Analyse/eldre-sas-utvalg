@@ -19,15 +19,15 @@ array diagnose {*} Hdiag: Bdiag: Tdiag:;
 
 array Prosedyre {*} NC:;
     do i=1 to dim(prosedyre); 
-		if substr(prosedyre{i},1,5) in ('NFJ60','NFJ70') then AnnenPros_Laarhals=1;
+		if substr(prosedyre{i},1,5) in ('NFJ30','NFJ40','NFJ50','NFJ60','NFJ70','NFJ80','NFJ80') then Osteosyntese_Laarhals=1;
  		if substr(prosedyre{i},1,3) in ('NFB') then Protese=1;
 end;
 
-	if laarhalsbrudd_diag = 1 and (AnnenPros_Laarhals=1 or Protese=1)  then laarhals_tot = 1;
-	if laarhalsbrudd_diag = 1 and Protese=1 then laarhals_prot = 1;
-	if laarhalsbrudd_diag = 1 and AnnenPros_Laarhals=1 then laarhals_annen = 1;
+	if laarhalsbrudd_diag = 1 and (Osteosyntese_Laarhals=1 or Protese=1)  then laarh_tot = 1;
+	if laarhalsbrudd_diag = 1 and Protese=1 then laarh_prot = 1;
+	if laarhalsbrudd_diag = 1 and Osteosyntese_Laarhals=1 then laarh_osteos = 1;
 
-drop AnnenPros_Laarhals laarhalsbrudd_diag Protese;
+drop Osteosyntese_Laarhals laarhalsbrudd_diag Protese;
 
 run;
 
@@ -45,8 +45,8 @@ array prosedyre {*} NC:;
 		/*Primære hofteproteser*/
        if SUBSTR(prosedyre{i},1,3)='NFB' then Hofteprotese=1;
 
-		if SUBSTR(prosedyre{i},1,4)='NB30' then Hofteprotese_reg=1;
-	   if SUBSTR(prosedyre{i},1,5) in ('NBB20', 'NFB40','NFB99') then Hofteprotese_reg=1;
+		
+	   if SUBSTR(prosedyre{i},1,5) in ('NFB20', 'NFB30', 'NFB40','NFB99') then Hofteprotese_reg=1;
 
 
     end;  

@@ -48,7 +48,7 @@ set &datasett;
 	array prosedyre {*} NC:;
 	do i=1 to dim(prosedyre);
 		if substr (prosedyre {i}, 1, 5) in ('FPE00','FPE10','FPE20') then pacem_arryt = 1;
-		if substr (prosedyre {i}, 1, 5) in ('FPE26') then pacem_hjertesvt = 1;
+		if substr (prosedyre {i}, 1, 5) in ('FPE26') then pacem_hjertesv = 1; /*ingen over 74 år har koden FPE36 (ICD  m/ biventriculær pacer) i NPR*/
 	end;
 		if pacem_arryt = 1 or pacem_hjertesv = 1 then pacemaker = 1;
 run;

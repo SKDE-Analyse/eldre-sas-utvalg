@@ -25,7 +25,7 @@ array takst {15} Normaltariff:;
 	if graast_diag=1 and graast_takst=1 then Graast_opr_takst=1;
 	if graast_opr_pros=1 or graast_opr_takst=1 then Graast_opr=1;	
 	if graast_diag=1 and graast_pros_begge = 1 then Graast_opr_pros_bg=1;
-
+												
 run;
 
 %mend graastaer;
@@ -41,22 +41,21 @@ data &datasett;
 set &datasett;
 array prosedyre {*} NC:;
      	do i=1 to dim(prosedyre);
-        	if prosedyre{i} in ('DXGT00', 'DXGT05') then DXGT00_05=1;
+        	if prosedyre{i} in ('DXGT00', 'DXGT05') then happ=1;
 		end;
 run;
 
 proc sort data= &datasett;
-by DXGT00_05 PID INNDATO UTDATO;
+by happ PID INNDATO UTDATO;
 run;
 
 data  &datasett;
 set  &datasett;
-	by DXGT00_05 PID INNDATO UTDATO;
-	if DXGT00_05=1 then do;
+	by happ PID INNDATO UTDATO;
+	if happ=1 then do;
 	if first.PID=1 then unik_happ=1;
 	end;
 
-	drop dxgt00_05;
 
 run;
 
@@ -100,7 +99,7 @@ set  &datasett;
 	if unik_injek=1 and injek_AMD=1 then unik_inj_AMD=1;
 	if unik_injek=1 and injek_diab=1 then unik_inj_diab=1;
 
-	drop unik3aar injek injek_diab injek_AMD injek_pros retinopati diab_retinopati diab_mellitus;
+	drop unik3aar injek_pros retinopati diab_retinopati diab_mellitus;
 
 run;
 

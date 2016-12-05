@@ -55,7 +55,7 @@ if R060_H=1 or J09_J11_H=1 or J12_18_H or J20_H=1 or J22_H=1 or J46_H=1 or J96_H
 if kols_H=1 or (andre_luftveis_H=1 and kols_B=1) then kols_alle=1;
 
 /* akuttinnlagt for kols */
-if kols_alle=1 and (liggetid>0 or utTilstand=2) and akutt=1 then kols_innl_akutt=1;
+if kols_alle=1 and (liggetid>0 or utTilstand=2) and ohjelp=1 then kols_innl_akutt=1;
 
 lungebet = .;
 if J12_18_H = 1 and (kols_H ne 1 or kols_B ne 1) then lungebet = 1; 

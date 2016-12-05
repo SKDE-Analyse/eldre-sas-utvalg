@@ -33,7 +33,7 @@ keep hdiag hdiag2 nc: pid koblingsID aar;
 where alder>74;
 run;
 
-%VarFraParvus (dsnMagnus=avd, var_som=aggrshoppID niva, var_avtspes=);
+%VarFraParvus (dsnMagnus=avd, var_som=aggrshoppID niva Cyto_1, var_avtspes=);
 
 
 /*Henter Hdiag fra avdelingsoppholdsfil og legger dem til*/
@@ -62,9 +62,9 @@ from &data left join avd_NC_Avd
 on &data..pid=avd_NC_Avd.pid and &data..aggrshoppID=avd_NC_Avd.aggrshoppID;
 quit; title;
 
-/*Proc datasets nolist;*/
-/*delete avd:;*/
-/*run;*/
+Proc datasets nolist;
+delete avd:;
+run;
 
 %mend leggTilFraAvdFil;
 
@@ -78,8 +78,8 @@ data &datasett;
 set &datasett;
   elektiv = .;
   ohjelp = .;
-  if hastegrad = 4 then Planlagt = 1;
-  if hastegrad = 1 then Akutt = 1;
+  if hastegrad = 4 then elektiv = 1;
+  if hastegrad = 1 then ohjelp = 1;
 run;
 
 %mend ohjelp_elektiv;
