@@ -112,15 +112,15 @@ set &datasett;
 	if first.pid and tot_behserie=1 then tot_behs_unik=1;
 
 run;
-
-data &datasett;
-set &datasett;
-
-
-	if tot_behs_unik = 1 and kur_behserie = 1 then kur_unik = 1;
-	if tot_behs_unik = 1 and pal_behserie = 1 then pal_unik = 1;
-
-run;
+/**/
+/*data &datasett;*/
+/*set &datasett;*/
+/**/
+/**/
+/*	if tot_behs_unik = 1 and kur_behserie = 1 then kur_unik = 1;*/
+/*	if tot_behs_unik = 1 and pal_behserie = 1 then pal_unik = 1;*/
+/**/
+/*run;*/
 
 %mend straaling;
 
@@ -151,17 +151,17 @@ set &datasett;
 
 run;
 
-
-	proc sort data=&datasett;
-		by PID  descending cellegft pid inndato utdato;
-	run;
-
-	data &datasett;
-	set &datasett;
-    	by pid descending cellegft inndato utdato;
-		if first.pid and cellegft=1 then cellegft_unik=1;
-		drop takst_kjemo newcyto kreft;
-	run;
+/**/
+/*	proc sort data=&datasett;*/
+/*		by PID  descending cellegft pid inndato utdato;*/
+/*	run;*/
+/**/
+/*	data &datasett;*/
+/*	set &datasett;*/
+/*    	by pid descending cellegft inndato utdato;*/
+/*		if first.pid and cellegft=1 then cellegft_unik=1;*/
+/*		drop takst_kjemo newcyto kreft;*/
+/*	run;*/
 
 
 
