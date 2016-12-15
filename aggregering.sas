@@ -1,5 +1,8 @@
 data tot;
-set utvalg_eldre;
+set npr_utva.EA_utvalg_eoc;
+alder = eoc_alder;
+aar = eoc_aar;
+drop eoc_alder eoc_aar;
 run;
 
 %let datasett = tot;
@@ -9,6 +12,53 @@ data &datasett;
 set &datasett;
 alle = 1;
 run;
+
+%let agg_var = alle;
+%let niva3 = tot_alle;
+%inndeling(inndata = &datasett, agg_var = &agg_var, behold_alle = 1);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+
+%let agg_var = alle;
+%let niva3 = tot;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+%let agg_var = innlegg_reinn;
+%let niva3 = innlegg_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+%let agg_var = hjertesvikt_reinn;
+%let niva3 = hjertesvikt_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+%let agg_var = hjerneslag_reinn;
+%let niva3 = hjerneslag_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+%let agg_var = ks_hjerneslag_reinn;
+%let niva3 = ks_hjerneslag_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+%let agg_var = ks_reinngr_reinn;
+%let niva3 = ks_reinngr_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = ks_brudd_reinn;
+%let niva3 = ks_brudd_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
 %let agg_var = pal_beh;
 %let niva3 = pal_beh;
@@ -133,10 +183,6 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = alle;
-%let niva3 = tot;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
 %let agg_var = under_aattifem;
 %let niva3 = u_85;

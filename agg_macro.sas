@@ -1,7 +1,7 @@
 
 %macro aggreger(inndata =, agg_var =, utdata = );
 
-%let mappe = skde_pet;
+%let mappe = skde_arn;
 
 proc sort data=&inndata;
 by aar ermann alder komnr bydel;
@@ -22,11 +22,11 @@ quit; run;
 Lagre et sett (&mappe..&utdata) som inneholder aggregerte data for de syv kategoriene
 tot, off, priv, elektiv, ohjelp, innlegg, poli + unik pasient for disse syv, samt liggetid.*/
 
-%let mappe = skde_pet;
+%let mappe = skde_arn;
 proc sql;
    create table &mappe..&utdata as 
    select distinct aar, ermann, alder, komnr, bydel,
-   SUM(tot) as tot, SUM(tot_unik) as tot_unik, 
+   SUM(tot) as tot, SUM(tot_unik) as tot_unik, sum(tot_unik_alleaar) as tot_unik_alleaar,
    SUM(off) as off, SUM(off_unik) as off_unik,
    SUM(priv) as priv, SUM(priv_unik) as priv_unik,
    SUM(elektiv) as elek, SUM(elektiv_unik) as elek_unik,
@@ -48,7 +48,7 @@ run;
 
 %mend;
 
-%macro inndeling(inndata =, agg_var = );
+%macro inndeling(inndata =, agg_var = , behold_alle = 0);
 
 /*
 Lage nytt datasett (&inndata._&agg_var) med tot, off, etc. er markert for
@@ -60,11 +60,11 @@ set &inndata;
 where &agg_var = 1;
 run;
 
+%if &behold_alle eq 0 %then %do;
 proc sort data=&inndata._&agg_var;
-by eoc_id eoc_inndato eoc_utdato eoc_aar;
+by eoc_id;
 run;
 
-/*2. By-statement sørger for at riktig opphold med hendelse velges i kombinasjon med First.-funksjonen og betingelse på hendelse*/
 data &inndata._&agg_var;
 set &inndata._&agg_var;
 by eoc_id;
@@ -75,6 +75,7 @@ data &inndata._&agg_var;
 set &inndata._&agg_var;
 where behold = 1;
 run;
+%end;
 
 data &inndata._&agg_var;
 set &inndata._&agg_var;
@@ -99,6 +100,7 @@ set &inndata._&agg_var;
 run;
 
 %unik_pasient(datasett = &inndata._&agg_var, variabel = tot);
+%unik_pasient_alle_aar(datasett = &inndata._&agg_var, variabel = tot);
 %unik_pasient(datasett = &inndata._&agg_var, variabel = priv);
 %unik_pasient(datasett = &inndata._&agg_var, variabel = off);
 %unik_pasient(datasett = &inndata._&agg_var, variabel = ohjelp);
@@ -123,19 +125,15 @@ Ny variabel, &variabel._unik, lages i samme datasett
 
 /*1. Sorter på år, aktuell hendelse (merkevariabel), PID, InnDato, UtDato;*/
 proc sort data=&datasett;
-by aar &variabel pid inndato utdato;
+by aar &variabel pid eoc_inndato eoc_utdato;
 run;
 
 /*2. By-statement sørger for at riktig opphold med hendelse velges i kombinasjon med First.-funksjonen og betingelse på hendelse*/
 data &datasett;
 set &datasett;
 &variabel._unik = .;
-by aar &variabel pid inndato utdato;
+by aar &variabel pid eoc_inndato eoc_utdato;
 if first.pid and &variabel = 1 then &variabel._unik = 1;	
-run;
-
-proc sort data=&datasett;
-by pid inndato utdato;
 run;
 
 %mend;
@@ -150,19 +148,15 @@ Ny variabel, Unik_&variabel, lages i samme datasett
 
 /*1. Sorter på aktuell hendelse (merkevariabel), PID, InnDato, UtDato;*/
 proc sort data=&datasett;
-by &variabel pid inndato utdato aar;
+by &variabel pid eoc_inndato eoc_utdato;
 run;
 
 /*2. By-statement sørger for at riktig opphold med hendelse velges i kombinasjon med First.-funksjonen og betingelse på hendelse*/
 data &datasett;
 set &datasett;
 Unik_&variabel = .;
-by &variabel pid inndato utdato;
-if first.pid and &variabel = 1 then Unik_&variabel=1;	
-run;
-
-proc sort data=&datasett;
-by pid inndato utdato;
+by &variabel pid eoc_inndato eoc_utdato;
+if first.pid and &variabel = 1 then &variabel._unik_alleaar=1;	
 run;
 
 %mend;
