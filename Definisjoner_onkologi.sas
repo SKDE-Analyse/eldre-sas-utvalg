@@ -1,14 +1,11 @@
 
 
-%macro straaling(datasett =);
+
+%macro straaling(datasett = );
 
 data &datasett;
 set &datasett;
-drop straale oppholdsnr_Straale num_beh Antall_Straale pal_straal kur_straal num;
-run;
 
-data &datasett;
-set &datasett;
 
 array prosedyre {*} NC:;
   do i=1 to dim(prosedyre);
@@ -18,22 +15,26 @@ array prosedyre {*} NC:;
   if Straale =1 or Bracky =1 then Straale_Beh=1;
 run;
 
-data &datasett;
-set &datasett;
+data  &datasett;
+set  &datasett;
+
 array diagnose {*} Hdiag: Bdiag: Tdiag:;
 do i=1 to dim(diagnose);
 	if substr(diagnose{i},1,3) in ('C20','C19') then RectumKreft=1;
 	if substr(diagnose{i},1,3) in ('C50') then BrystKreft=1;
 	if substr(diagnose{i},1,3) in ('C83','C84','C85') then Lymfom=1;
+	if substr(diagnose{i},1,3) in ('C34') then Lungekreft=1;
 end;
 run;
 
-proc sort Data=&datasett;
+proc sort Data= &datasett;
 by Straale pid inndato utdato;
 run;
 
+
 data &datasett;
 set &datasett;
+
   by Straale pid inndato utdato;
   if Straale = 1 then do;
     if first.pid=1 then do;
@@ -55,6 +56,7 @@ run;
 
 data &datasett;
 set &datasett;
+
   by descending Straale PID num_beh;
     if straale = 1 then do;
       if first.PID=1 then do;
@@ -76,6 +78,7 @@ set &datasett;
 if Straale = 1 and unik_beh = 1 then do;
     if RectumKreft=1 and Antall_Straale=5 then kur_behserie = 1;
     else if BrystKreft=1 and Antall_Straale=15 then kur_behserie = 1;
+	else if Lungekreft=1 and Antall_Straale=15 then kur_behserie = 1;
 	else if Lymfom=1 and Antall_Straale >11 then kur_behserie = 1;
     else if Bracky=1 and Antall_Straale <15 then kur_behserie = 1;
     else if antall_Straale le 15 then pal_behserie = 1;
@@ -85,9 +88,12 @@ if Straale = 1 and unik_beh = 1 then do;
   if Straale_beh = 1 then do;
     if RectumKreft=1 and Antall_Straale=5 then kur_beh = 1;
     else if BrystKreft=1 and Antall_Straale=15 then kur_beh = 1;
+	else if Lungekreft=1 and Antall_Straale=15 then kur_beh = 1;
+	else if Lymfom=1 and Antall_Straale >11 then kur_beh = 1;
     else if Bracky=1 and Antall_Straale <15 then kur_beh = 1;
     else if antall_Straale le 15 then pal_beh = 1;
     else if antall_Straale gt 15 then kur_beh = 1;
+
     drop num_beh;
 end;
 
@@ -101,13 +107,15 @@ run;
 
 data &datasett;
 set &datasett;
+
     by pid descending tot_behserie inndato utdato;
 	if first.pid and tot_behserie=1 then tot_behs_unik=1;
-	drop lag: opph: ant: unik: rectum: bryst:;
+
 run;
 
 data &datasett;
 set &datasett;
+
 
 	if tot_behs_unik = 1 and kur_behserie = 1 then kur_unik = 1;
 	if tot_behs_unik = 1 and pal_behserie = 1 then pal_unik = 1;
@@ -117,12 +125,13 @@ run;
 %mend straaling;
 
 
+/*Cellegift*/
 
-
-%macro cellegft(datasett =);
+%macro cellegft (datasett = );
 
 data &datasett;
 set &datasett;
+
      array diagnose {*} Hdiag: Bdiag: Tdiag:;
        do i = 1 to dim(diagnose); 
           if substr(diagnose{i},1,1) in ('C') then Kreft=1;
