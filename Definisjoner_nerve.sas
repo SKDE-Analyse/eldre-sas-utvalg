@@ -20,6 +20,8 @@ array bdiagnose {*}  Bdiag: ;
 
 if Demens_BDiag=1 and Demens_tillegg=1 then Demens=1 ;
 
+if Demens_BDiag=1 or Demens=1 then Demens_m_BDIAG=1 ;
+
 run;
 
 %mend demens;
@@ -98,6 +100,8 @@ array bdiagnose {*}  Bdiag:;
      end;
 
 if Parkinson_bi=1 and Parkinson_tillegg=1 then Parkinson=1;
+
+if Parkinson_bi=1 or Parkinson=1 then Parkinson_m_BDIAG=1;
 
 run;
 
