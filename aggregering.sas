@@ -193,7 +193,6 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-
 %let agg_var = injek;
 %let niva3 = injek;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
@@ -208,7 +207,6 @@ run;
 %let niva3 = injek_diab;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
 
 %let agg_var = happ;
 %let niva3 = happ;
