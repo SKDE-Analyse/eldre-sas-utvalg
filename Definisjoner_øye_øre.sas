@@ -96,24 +96,7 @@ end;
 	if (Diab_oyekompl= 1 or Diab_retinopati = 1) and injek_pros = 1 then injek_diab = 1;	
 	if injek_Vene=1 or injek_AMD=1 or injek_diab=1 then injek=1;
 
-
-
-proc sort data= &datasett;
-	by injek PID INNDATO UTDATO;
-run;
-
-data  &datasett;
-set  &datasett;
-	by injek PID INNDATO UTDATO;
-	if injek=1 then do;
-	if first.PID=1 then unik_injek=1;
-	end;
-
-	if unik_injek=1 and injek_Vene=1 then unik_inj_Vene=1;
-	if unik_injek=1 and injek_AMD=1 then unik_inj_AMD=1;
-	if unik_injek=1 and injek_diab=1 then unik_inj_diab=1;
-
-	drop unik3aar injek_pros Veneokklusjon AMD diab_retinopati Diab_oyekompl;
+	drop injek_pros Veneokklusjon AMD diab_retinopati Diab_oyekompl laser_pros PDT_pros;
 
 run;
 
