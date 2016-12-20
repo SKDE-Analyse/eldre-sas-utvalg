@@ -41,7 +41,8 @@ data &datasett;
 set &datasett;
 array prosedyre {*} NC:;
      	do i=1 to dim(prosedyre);
-        	if prosedyre{i} in ('DXGT00', 'DXGT05') then happ=1;
+        	if prosedyre{i} in ('DXGT00', 'DXGT05') then happ_m_kontroll=1;
+				if prosedyre{i} in ('DXGT00') then happ=1;
 		end;
 run;
 
@@ -76,16 +77,7 @@ array diagnose {*} Hdiag: Bdiag: Tdiag:;
          if substr(diagnose{i},1,4) in ('H348') then Veneokklusjon=1;
          if substr(diagnose{i},1,4) in ('H353') then AMD=1;
 	 if substr(diagnose{i},1,4) in ('H360') then Diab_retinopati=1;
-	 if substr(diagnose{i},1,4) in ('E103', 'E113') then Diab_oyekompl=1;
-		 
-     end;
-
-array legemiddel {*} ATC:;/*vet ikke om det vil fungere å kalle det for 'legemiddel'
-Viktig å sjekke om det for hver injeksjons-prosedyre er en ATC-kode,- stort sett. Hvis det er mye missing er det ingen vits å gå vurdere med dette å vurdere hvilket legemiddel som er brukt*/
-     do i=1 to dim(legemiddel);
-         if substr(legemiddel{i},1,7) in ('SO1LA04') then Lucentis=1;
-         if substr(legemiddel{i},1,7) in ('SO1LA05') then Eylea=1;
-	 if substr(legemiddel{i},1,7) in ('LO1XC07') then Avastin=1;
+	 if substr(diagnose{i},1,3) in ('E10', 'E11') then Diab_oyekompl=1;
 		 
      end;
 
@@ -107,10 +99,7 @@ end;
 	if (Diab_oyekompl= 1 or Diab_retinopati = 1) and injek_pros = 1 then injek_diab = 1;	
 	if injek_Vene=1 or injek_AMD=1 or injek_diab=1 then injek=1;
 
-	/*kode for å fremstille ulike medikamenter ved injeksjonsbehandling*/
-	if Lucentis=1 and injek_pros=1 then injek_Lucentis=1;
-	if Eylea=1 and injek_pros=1 then injek_Eylea=1;
-	if Avastin=1 and injek_pros=1 then injek_Avastin=1;
+
 
 proc sort data= &datasett;
 	by injek PID INNDATO UTDATO;
