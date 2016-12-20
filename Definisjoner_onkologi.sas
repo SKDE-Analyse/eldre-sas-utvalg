@@ -24,7 +24,7 @@ run;
 	set &datasett;
     	by pid descending Straale_Beh inndato utdato;
 		if first.pid and Straale_Beh=1 then straale_unik=1;
-/*		drop bracky straale;*/
+		drop bracky straale;
 	run;
 
 

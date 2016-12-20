@@ -26,7 +26,7 @@ tot, off, priv, elektiv, ohjelp, innlegg, poli + unik pasient for disse syv, sam
 proc sql;
    create table &mappe..&utdata as 
    select distinct aar, ermann, alder, komnr, bydel,
-   SUM(tot) as tot, SUM(tot_unik) as tot_unik, sum(tot_unik_alleaar) as tot_unik_alleaar, 
+   SUM(tot) as tot, SUM(tot_unik) as tot_unik, 
    SUM(off) as off, SUM(off_unik) as off_unik,
    SUM(priv) as priv, SUM(priv_unik) as priv_unik,
    SUM(elektiv) as elek, SUM(elektiv_unik) as elek_unik,
@@ -149,13 +149,13 @@ Ny variabel, Unik_&variabel, lages i samme datasett
 
 /*1. Sorter på aktuell hendelse (merkevariabel), PID, InnDato, UtDato;*/
 proc sort data=&datasett;
-by &variabel pid inndato utdato;
+by &variabel pid inndato utdato aar;
 run;
 
 /*2. By-statement sørger for at riktig opphold med hendelse velges i kombinasjon med First.-funksjonen og betingelse på hendelse*/
 data &datasett;
 set &datasett;
-&variabel._unik_alleaar = .;
+Unik_&variabel = .;
 by &variabel pid inndato utdato;
 if first.pid and &variabel = 1 then &variabel._unik_alleaar=1;	
 run;

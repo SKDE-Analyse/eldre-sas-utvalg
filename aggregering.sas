@@ -10,31 +10,36 @@ set &datasett;
 alle = 1;
 run;
 
-%let agg_var = pal_beh;
-%let niva3 = pal_beh;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = kur_beh;
-%let niva3 = kur_beh;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+/*%let agg_var = pal_beh;*/
+/*%let niva3 = pal_beh;*/
+/*%inndeling(inndata = &datasett, agg_var = &agg_var);*/
+/*%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);*/
+/**/
+/*%let agg_var = kur_beh;*/
+/*%let niva3 = kur_beh;*/
+/*%inndeling(inndata = &datasett, agg_var = &agg_var);*/
+/*%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);*/
 
 %let agg_var = Straale_beh;
 %let niva3 = Straale_beh;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-
-%let agg_var = kur_unik;
-%let niva3 = kur_unik;
+%let agg_var = straale_unik;
+%let niva3 = straale_unik;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = pal_unik;
-%let niva3 = pal_unik;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+/*%let agg_var = kur_unik;*/
+/*%let niva3 = kur_unik;*/
+/*%inndeling(inndata = &datasett, agg_var = &agg_var);*/
+/*%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);*/
+/**/
+/*%let agg_var = pal_unik;*/
+/*%let niva3 = pal_unik;*/
+/*%inndeling(inndata = &datasett, agg_var = &agg_var);*/
+/*%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);*/
 
 
 %let agg_var = cellegft;
@@ -42,10 +47,10 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = cellegft_unik;
-%let niva3 = cellegft_unik;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+/*%let agg_var = cellegft_unik;*/
+/*%let niva3 = cellegft_unik;*/
+/*%inndeling(inndata = &datasett, agg_var = &agg_var);*/
+/*%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);*/
 
 %let agg_var = lungebet;
 %let niva3 = lungebet;
@@ -78,6 +83,11 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
+%let agg_var = parkinson_m_bdiag;
+%let niva3 = parkinson_m_bdiag;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
 %let agg_var = akutthjerneslag;
 %let niva3 = akutthjerneslag;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
@@ -85,6 +95,11 @@ run;
 
 %let agg_var = demens;
 %let niva3 = demens;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = demens_m_bdiag;
+%let niva3 = demens_m_bdiag;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
@@ -153,11 +168,6 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = Graast_opr_pros_bg;
-%let niva3 = Graast_opr_pros_bg;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
 %let agg_var = kneprotese;
 %let niva3 = kneprotese;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
@@ -193,6 +203,26 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
+%let agg_var = unik_injek;
+%let niva3 = unik_injek;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = unik_inj_AMD;
+%let niva3 = unik_inj_AMD;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = unik_inj_Vene;
+%let niva3 = unik_inj_Vene;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = unik_inj_diab;
+%let niva3 = unik_inj_diab;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
 %let agg_var = injek;
 %let niva3 = injek;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
@@ -203,8 +233,38 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
+%let agg_var = injek_Vene;
+%let niva3 = injek_Vene;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
 %let agg_var = injek_diab;
 %let niva3 = injek_diab;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = retinasykdom;
+%let niva3 = retinasykdom;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = injek_retinasykd;
+%let niva3 = injek_retinasykd;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = PDT_retinasykd;
+%let niva3 = PDT_retinasykd;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = laser_retinasykd;
+%let niva3 = laser_retinasykd;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = unik_happ;
+%let niva3 = unik_happ;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
@@ -212,3 +272,9 @@ run;
 %let niva3 = happ;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = ks_Brudd;
+%let niva3 = ks_Brudd;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
