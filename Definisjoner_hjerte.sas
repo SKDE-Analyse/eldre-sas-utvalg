@@ -4,10 +4,10 @@
 data &datasett;
 set &datasett;
 
-array diagnose {*} Hdiag:;
+array diagnose {*} Hdiag: Tdiag:;
   do i=1 to dim(diagnose);
     if substr(diagnose{i},1,3) in ('I43','I50','J81') then hjertesvikt=1;
-    if substr(diagnose{i},1,4) in ('I099','I119','I130','I132','I255', 'I420','I425','I426','I427','I428','I429','I971') then hjertesvikt=1;
+    if substr(diagnose{i},1,4) in ('I099','I110','I130','I132','I255', 'I420','I425','I426','I427','I428','I429','I971') then hjertesvikt=1;
   end;
 
 run;
