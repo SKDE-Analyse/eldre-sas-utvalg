@@ -10,7 +10,7 @@ where alder > 73;
 off = 1;
 run;
 
-%VarFraParvus (dsnMagnus=off_sh, var_som=cyto_1 inntid uttid, var_avtspes=);
+%VarFraParvus (dsnMagnus=off_sh, var_som=cyto_1 inntid uttid doddato, var_avtspes=);
 
 %include "&filbane.makroer\develop\episode_of_care.sas";
 %episode_of_care(dsn=off_sh);

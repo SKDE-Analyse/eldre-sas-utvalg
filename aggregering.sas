@@ -1,5 +1,5 @@
 data tot;
-set npr_utva.EA_utvalg_eoc;
+set npr_utva.EA_utvalg_eoc_reinn;
 alder = eoc_alder;
 aar = eoc_aar;
 drop eoc_alder eoc_aar;

@@ -3,6 +3,8 @@ data utvalg_eldre;
 set npr_utva.EA_utvalg_eoc;
 run;
 
+%dod_etter_ett_aar(datasett = utvalg_eldre, variabel =ks_Brudd);
+
 %include "&filbane.makroer\develop\reinnleggelser.sas";
 
 %reinnleggelser(dsn=utvalg_eldre, primaer = innlegg, siste_utdato ='30Nov2015'd);
@@ -58,7 +60,7 @@ drop EoC_reinnleggelse;
 run;
 
 
-data npr_utva.EA_utvalg_eoc;
+data npr_utva.EA_utvalg_eoc_reinn;
 set utvalg_eldre;
 where EoC_aar ne 2012;
 run;
