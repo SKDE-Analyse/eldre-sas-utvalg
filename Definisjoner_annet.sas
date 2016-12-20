@@ -28,12 +28,16 @@ run;
 data &datasett;
 set &datasett;
 
-%if %variabel = alle %then %do;
+%if &variabel = alle %then %do;
 if doddato - eoc_utdato < 365 then dod = 1;
-%else;
-if doddato - eoc_utdato < 365 and variabel = 1 then dod_&variabel = 1;
+%end;
+%else %do;
+if doddato - eoc_utdato < 365 and &variabel = 1 then dod_&variabel = 1;
 %end;
 
+run;
+
 %mend;
+
 
 
