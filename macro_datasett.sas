@@ -12,9 +12,11 @@ innlegg = .;
 poli = .;
 
 If eoc_aktivitetskategori3 = 1 and eoc_Liggetid ge 1 then innlegg = 1;
-else if eoc_aktivitetskategori3 = 1 and eoc_uttilstand in (2, 3) then innlegg = 1; * ut som død eller selvmord;
-else if (eoc_aktivitetskategori3 = 1 and eoc_Liggetid=0) or eoc_aktivitetskategori3=2 then poli = 1;
-else if eoc_aktivitetskategori3 = 3 then poli = 1;
+else if eoc_uttilstand in (2, 3) then innlegg = 1; * ut som død eller selvmord;
+else if (eoc_aktivitetskategori3 = 1 and eoc_Liggetid=0) then poli = 1;
+else if eoc_aktivitetskategori3 in (2,3) then poli = 1;
+
+if poli = 1 then eoc_Liggetid = 0;
 
 run;
 

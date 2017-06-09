@@ -3,62 +3,64 @@ data utvalg_eldre;
 set npr_utva.EA_utvalg_eoc;
 run;
 
-%dod_etter_ett_aar(datasett = utvalg_eldre, variabel =ks_Brudd);
+%include "&filbane.makroer\master\reinnleggelser.sas";
 
-%include "&filbane.makroer\develop\reinnleggelser.sas";
 
-%reinnleggelser(dsn=utvalg_eldre, primaer = innlegg, siste_utdato ='30Nov2015'd);
-
-data utvalg_eldre;
-set utvalg_eldre;
-innlegg_reinn = EoC_reinnleggelse;
-drop EoC_reinnleggelse;
-run;
-
-%reinnleggelser(dsn=utvalg_eldre, primaer = hjertesvikt, siste_utdato ='30Nov2015'd);
+%reinnleggelser(dsn=utvalg_eldre, primaer = innlegg, forste_utdato='30Nov2012'd, kun_innleggelser = 1);
 
 data utvalg_eldre;
 set utvalg_eldre;
-hjertesvikt_reinn = EoC_reinnleggelse;
-drop EoC_reinnleggelse;
+innlegg_prim = primaeropphold;
+innlegg_reinn = primaer_med_reinn;
+drop primaeropphold primaer_med_reinn reinnleggelse;
 run;
 
 
-%reinnleggelser(dsn=utvalg_eldre, primaer = hjerneslag, siste_utdato ='30Nov2015'd);
+%reinnleggelser(dsn=utvalg_eldre, primaer = hjertesvikt, forste_utdato='30Nov2012'd, kun_innleggelser = 1);
 
 data utvalg_eldre;
 set utvalg_eldre;
-hjerneslag_reinn = EoC_reinnleggelse;
-drop EoC_reinnleggelse;
+hjertesvikt_prim = primaeropphold;
+hjertesvikt_reinn = primaer_med_reinn;
+drop primaeropphold primaer_med_reinn reinnleggelse;
 run;
 
 
-%reinnleggelser(dsn=utvalg_eldre, primaer = ks_hjerneslag, siste_utdato ='30Nov2015'd);
+%reinnleggelser(dsn=utvalg_eldre, primaer = lungebet, forste_utdato='30Nov2012'd, kun_innleggelser = 1);
 
 data utvalg_eldre;
 set utvalg_eldre;
-ks_hjerneslag_reinn = EoC_reinnleggelse;
-drop EoC_reinnleggelse;
+lungebet_prim = primaeropphold;
+lungebet_reinn = primaer_med_reinn;
+drop primaeropphold primaer_med_reinn reinnleggelse;
 run;
 
-
-%reinnleggelser(dsn=utvalg_eldre, primaer = ks_reinngr, siste_utdato ='30Nov2015'd);
+%reinnleggelser(dsn=utvalg_eldre, primaer = kols_innl_akutt, forste_utdato='30Nov2012'd, kun_innleggelser = 1);
 
 data utvalg_eldre;
 set utvalg_eldre;
-ks_reinngr_reinn = EoC_reinnleggelse;
-drop EoC_reinnleggelse;
+kols_inl_ak_prim = primaeropphold;
+kols_inl_ak_reinn = primaer_med_reinn;
+drop primaeropphold primaer_med_reinn reinnleggelse;
 run;
 
-
-%reinnleggelser(dsn=utvalg_eldre, primaer = ks_brudd, siste_utdato ='30Nov2015'd);
+%reinnleggelser(dsn=utvalg_eldre, primaer = akutthjerneslag, forste_utdato='30Nov2012'd, kun_innleggelser = 1);
 
 data utvalg_eldre;
 set utvalg_eldre;
-ks_brudd_reinn = EoC_reinnleggelse;
-drop EoC_reinnleggelse;
+ak_hj_slag_prim = primaeropphold;
+ak_hj_slag_reinn = primaer_med_reinn;
+drop primaeropphold primaer_med_reinn reinnleggelse;
 run;
 
+%reinnleggelser(dsn=utvalg_eldre, primaer = hoftebrudd, forste_utdato='30Nov2012'd, kun_innleggelser = 1);
+
+data utvalg_eldre;
+set utvalg_eldre;
+hoftebrudd_prim = primaeropphold;
+hoftebrudd_reinn = primaer_med_reinn;
+drop primaeropphold primaer_med_reinn reinnleggelse;
+/*run;*/
 
 data npr_utva.EA_utvalg_eoc_reinn;
 set utvalg_eldre;

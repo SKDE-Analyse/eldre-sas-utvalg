@@ -10,9 +10,19 @@ where alder > 73;
 off = 1;
 run;
 
-%VarFraParvus (dsnMagnus=off_sh, var_som=cyto_1 inntid uttid doddato, var_avtspes=);
+%VarFraParvus (dsnMagnus=off_sh, var_som=cyto_1 inntid uttid doddato polUtforende_1, var_avtspes=);
 
-%include "&filbane.makroer\develop\episode_of_care.sas";
+
+/* Tar ut tjenester utført av ergoterapaut og fysioterapaut fra utvalget før EOC kjøres*/
+
+data off_sh;
+set off_sh;
+if polUtforende_1 in (13,14) then delete;
+run;
+
+
+
+%include "&filbane.makroer\master\episode_of_care.sas";
 %episode_of_care(dsn=off_sh);
 
 
@@ -24,6 +34,7 @@ Data off_sh;
 set off_sh;
 where eoc_utdato > '30Nov2012'd and eoc_alder > 74;
 run;
+
 
 
 * Sette de private sykehus til priv;

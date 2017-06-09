@@ -22,18 +22,33 @@ run;
 
 %mend;
 
-%macro dod_etter_ett_aar(datasett =, variabel =alle);
+%macro dod_etter_opphold(datasett =, variabel =alle);
 
 
 data &datasett;
 set &datasett;
 
-%if &variabel = alle %then %do;
-if doddato - eoc_utdato < 365 then dod = 1;
-%end;
-%else %do;
-if doddato - eoc_utdato < 365 and &variabel = 1 then dod_&variabel = 1;
-%end;
+/* Sjekker om pasient er død nå og om dødsfall skjedde etter inndato
+(hvis før inndato: døddato er feil)
+*/
+if doddato ne . and doddato > eoc_inndato then do;
+   	  if &variabel = 1 then dod_&variabel = 1;
+      if doddato - eoc_utdato < 365 and &variabel = 1 then dod365_&variabel = 1;
+      if doddato - eoc_utdato < 30 and &variabel = 1 then dod30_&variabel = 1;
+end;
+
+run;
+
+%mend;
+
+
+%macro elek_innl(datasett =);
+
+
+data &datasett;
+set &datasett;
+ 
+   	  if innlegg = 1 and elektiv = 1 then inn_elek = 1;   
 
 run;
 

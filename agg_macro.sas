@@ -37,7 +37,7 @@ proc sql;
    SUM(poli) as poli, SUM(poli_unik) as poli_unik,
    SUM(poli_off) as poli_off, SUM(poli_off_unik) as poli_off_unik,
    SUM(poli_priv) as poli_priv, SUM(poli_priv_unik) as poli_priv_unik,
-   SUM(liggetid) as liggetid
+   SUM(eoc_liggetid) as eoc_liggetid
    from &inndata
    group by aar, ermann, alder, komnr, bydel;
 quit; run;

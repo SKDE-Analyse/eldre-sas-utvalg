@@ -6,9 +6,12 @@ set &datasett;
 
 array diagnose {*} Hdiag: Tdiag:;
   do i=1 to dim(diagnose);
-    if substr(diagnose{i},1,3) in ('I43','I50','J81') then hjertesvikt=1;
-    if substr(diagnose{i},1,4) in ('I099','I110','I130','I132','I255', 'I420','I425','I426','I427','I428','I429','I971') then hjertesvikt=1;
+    if substr(diagnose{i},1,3) in ('I50') then hjertesvikt=1;
+    if substr(diagnose{i},1,4) in ('I110','I130','I132') then hjertesvikt=1;
+	 
   end;
+
+  if hjertesvikt = 1 and innlegg = 1 then hjertesv_inn = 1;
 
 run;
 
@@ -19,7 +22,7 @@ run;
 
 
 
-%macro hjerteinfrakt(datasett = );
+%macro hjerteinfarkt(datasett = );
 
 data &datasett;
 set &datasett;
@@ -35,7 +38,7 @@ array diagnose {*} Hdiag: Bdiag: Tdiag:;
 
 run;
 
-%mend hjerteinfrakt;
+%mend hjerteinfarkt;
 
 
 
@@ -47,10 +50,11 @@ set &datasett;
 	
 	array prosedyre {*} NC:;
 	do i=1 to dim(prosedyre);
-		if substr (prosedyre {i}, 1, 5) in ('FPE00','FPE10','FPE20') then pacem_arryt = 1;
-		if substr (prosedyre {i}, 1, 5) in ('FPE26') then pacem_hjertesv = 1; /*ingen over 74 år har koden FPE36 (ICD  m/ biventriculær pacer) i NPR*/
+		if substr (prosedyre {i}, 1, 5) in ('FPE00','FPE10','FPE20','FPG30','FPG33') then pacem_u_crt = 1;
+		if substr (prosedyre {i}, 1, 5) in ('FPE26','FPG36') then pacem_crt = 1; /*ingen over 74 år har koden FPE36 (ICD  m/ biventriculær pacer) i NPR*/
+		
 	end;
-		if pacem_arryt = 1 or pacem_hjertesv = 1 then pacemaker = 1;
+		if pacem_u_crt = 1 or pacem_crt = 1 then pacemaker = 1;  /*Her er det den opprinnelige versjonen av pacem_hjertesv som defineres som pacemaker*/
 run;
  
 %mend pacemaker;

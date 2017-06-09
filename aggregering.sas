@@ -1,5 +1,5 @@
 data tot;
-set npr_utva.EA_utvalg_eoc_reinn;
+set npr_utva.EA_utvalg_eoc_reinn;  
 alder = eoc_alder;
 aar = eoc_aar;
 drop eoc_alder eoc_aar;
@@ -13,53 +13,90 @@ set &datasett;
 alle = 1;
 run;
 
-%let agg_var = alle;
-%let niva3 = tot_alle;
-%inndeling(inndata = &datasett, agg_var = &agg_var, behold_alle = 1);
+
+%let agg_var = inn_elek;
+%let niva3 = inn_elek;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = Holter_gml;
+%let niva3 = Holter_gml;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = demens_KognSv;
+%let niva3 = demens_KognsSv;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = holter;
+%let niva3 = holter;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = demens;
+%let niva3 = demens;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = hjertesvikt;
+%let niva3 = hjertesvikt;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = parkinson;
+%let niva3 = parkinson;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = parkinson_alt;
+%let niva3 = parkinson_alt;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = parkinsonisme;
+%let niva3 = parkinsonisme;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+%let agg_var = kols_innl_akutt;
+%let niva3 = kols_innl_akutt;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = lungebet_inn;
+%let niva3 = lungebet_inn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+
+/*Aggregering*/
+
+%let agg_var = cellegft;
+%let niva3 = cellegft;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+%let agg_var = kogn_svikt;
+%let niva3 = kogn_svikt;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+/**/
+/*%let agg_var = alle;*/
+/*%let niva3 = tot_alle;*/
+/*%inndeling(inndata = &datasett, agg_var = &agg_var, behold_alle = 1);*/
+/*%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);*/
 
 %let agg_var = alle;
 %let niva3 = tot;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = innlegg_reinn;
-%let niva3 = innlegg_reinn;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = hjertesvikt_reinn;
-%let niva3 = hjertesvikt_reinn;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = hjerneslag_reinn;
-%let niva3 = hjerneslag_reinn;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = ks_hjerneslag_reinn;
-%let niva3 = ks_hjerneslag_reinn;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = ks_reinngr_reinn;
-%let niva3 = ks_reinngr_reinn;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = ks_brudd_reinn;
-%let niva3 = ks_brudd_reinn;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
 %let agg_var = Straale_beh;
 %let niva3 = Straale_beh;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = cellegft;
-%let niva3 = cellegft;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
@@ -83,33 +120,8 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = hjertesvikt;
-%let niva3 = hjertesvikt;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = parkinson;
-%let niva3 = parkinson;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = parkinson_m_bdiag;
-%let niva3 = parkinson_m_bdiag;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
 %let agg_var = akutthjerneslag;
 %let niva3 = akutthjerneslag;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = demens;
-%let niva3 = demens;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = demens_m_bdiag;
-%let niva3 = demens_m_bdiag;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
@@ -128,20 +140,11 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = pacemaker;
-%let niva3 = pacemaker;
+%let agg_var = holter;
+%let niva3 = holter;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = pacem_arryt;
-%let niva3 = pacem_arryt;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = pacem_hjertesv;
-%let niva3 = pacem_hjertesv;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
 %let agg_var = revask;
 %let niva3 = revask;
@@ -183,31 +186,6 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = hofteprotese_reg;
-%let niva3 = hofteprotese_reg;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = kols_innl_akutt;
-%let niva3 = kols_innl_akutt;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = bentetthet;
-%let niva3 = bentetthet;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = gastroskopi;
-%let niva3 = gastroskopi;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
-%let agg_var = kolonskopi;
-%let niva3 = kolonskopi;
-%inndeling(inndata = &datasett, agg_var = &agg_var);
-%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
-
 %let agg_var = injek;
 %let niva3 = injek;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
@@ -228,33 +206,142 @@ run;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = retinasykdom;
-%let niva3 = retinasykdom;
+%let agg_var = unik_happ_15;
+%let niva3 = unik_happ_15;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = injek_retinasykd;
-%let niva3 = injek_retinasykd;
+%let agg_var = unik_happ_14;
+%let niva3 = unik_happ_14;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = PDT_retinasykd;
-%let niva3 = PDT_retinasykd;
+%let agg_var = unik_happ_13;
+%let niva3 = unik_happ_13;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = laser_retinasykd;
-%let niva3 = laser_retinasykd;
+%let agg_var = hoftebrudd;
+%let niva3 = hoftebrudd;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = happ;
-%let niva3 = happ;
+%let agg_var = pacemaker;
+%let niva3 = pacemaker;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
-%let agg_var = ks_Brudd;
-%let niva3 = ks_Brudd;
+%let agg_var = pacem_crt;
+%let niva3 = pacem_crt;
 %inndeling(inndata = &datasett, agg_var = &agg_var);
 %agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
 
+%let agg_var = pacem_u_crt;
+%let niva3 = pacem_u_crt;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+/*Reinnleggelser og primæropphold*/
+
+%let agg_var = innlegg_reinn;
+%let niva3 = innlegg_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = innlegg_prim;
+%let niva3 = innlegg_prim;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = lungebet_reinn;
+%let niva3 = lungebet_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = lungebet_prim;
+%let niva3 = lungebet_prim;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = kols_inl_ak_reinn;
+%let niva3 = kols_inl_ak_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = kols_inl_ak_prim;
+%let niva3 = kols_inl_ak_prim;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = ak_hj_slag_reinn;
+%let niva3 = ak_hj_slag_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = ak_hj_slag_prim;
+%let niva3 = ak_hj_slag_prim;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = hoftebrudd_reinn;
+%let niva3 = hoftebrudd_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = hoftebrudd_prim;
+%let niva3 = hoftebrudd_prim;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = hjertesvikt_reinn;
+%let niva3 = hjertesvikt_reinn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = hjertesvikt_prim;
+%let niva3 = hjertesvikt_prim;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+
+ /*Død etter 30, 90 og 365 dager*/
+
+%let agg_var = dod30_hjertesvikt;
+%let niva3 = dod30_hjertesvikt;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = dod365_hoftebrudd;
+%let niva3 = dod365_hoftebrudd;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = dod30_hoftebrudd;
+%let niva3 = dod30_hoftebrudd;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = dod365_hoftebrudd;
+%let niva3 = dod365_hoftebrudd;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = dod30_lungebet_inn;
+%let niva3 = dod30_lungebet_inn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = dod365_lungebet_inn;
+%let niva3 = dod365_lungebet_inn;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = dod30_akutthjerneslag;
+%let niva3 = dod30_akutthjerneslag;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);
+
+%let agg_var = dod365_akutthjerneslag;
+%let niva3 = dod365_akutthjerneslag;
+%inndeling(inndata = &datasett, agg_var = &agg_var);
+%agg_15delt(inndata =&datasett._&agg_var, utdata = e_u_&niva1._&niva3);

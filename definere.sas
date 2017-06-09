@@ -2,9 +2,20 @@
 /**/
 data utvalg_eldre;
 set npr_utva.EA_alle_eoc;
+/*if eoc_aktivitetskategori3 = 1 then do;*/
+/*	if aktivitetskategori3 in (2,3) then do;*/
+/* 		Bdiag21 = hdiag;*/
+/*		Bdiag22 = hdiag2;*/
+/*		Hdiag = .;*/
+/*		Hdiag2 = .;*/
+/*	end;*/
+/*end;*/
 run;
 
-%reinnlegg_11gr(datasett = utvalg_eldre);
+
+%hoftebrudd(datasett = utvalg_eldre);
+
+%holter(datasett = utvalg_eldre);
 
 %straaling(datasett = utvalg_eldre);
 
@@ -18,7 +29,7 @@ run;
 
 %parkinson(datasett = utvalg_eldre);
 
-%hjerteinfrakt(datasett = utvalg_eldre);
+%hjerteinfarkt(datasett = utvalg_eldre);
 
 %akutthjerneslag(datasett = utvalg_eldre);
 
@@ -44,15 +55,9 @@ run;
 
 %lunge (datasett = utvalg_eldre);
 
-%gastroskopi (datasett = utvalg_eldre);
-
-%bentetthet (datasett = utvalg_eldre);
-
-%kolonskopi (datasett = utvalg_eldre);
-
 %injeksjon_oye (datasett = utvalg_eldre);
 
-
+%elek_innl (datasett = utvalg_eldre);
 
 data npr_utva.EA_utvalg_eoc;
 set utvalg_eldre;
