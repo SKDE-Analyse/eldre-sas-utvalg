@@ -21,7 +21,6 @@ run;
 
 
 
-
 %macro hjerteinfarkt(datasett = );
 
 data &datasett;
@@ -66,12 +65,14 @@ set &datasett;
 
 array prosedyre {*} NC:;
      do i=1 to dim(prosedyre);
-
+		  if substr(prosedyre{i},1,5)='FYDB1' then Angio=1;   /*Legger til Angio for abstract-prosjektet*/
           if substr(prosedyre{i},1,3) = 'FNG' then PCI=1;
           if substr(prosedyre{i},1,3) in ('FNA', 'FNB', 'FNC', 'FND', 'FNE') then Bypass=1;
      end;
 
 If PCI=1 or Bypass=1 then Revask=1;
+if PCI=1 then Angio=1;
+
 Run;
 
 %mend revask;
