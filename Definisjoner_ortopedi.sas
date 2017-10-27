@@ -19,7 +19,7 @@ array diagnose {*} Hdiag: Bdiag: Tdiag:;
 
 array Prosedyre {*} NC:;
     do i=1 to dim(prosedyre); 
-		if substr(prosedyre{i},1,5) in ('NFJ30','NFJ40','NFJ50','NFJ60','NFJ70','NFJ80','NFJ80') then Osteosyntese_Laarhals=1;
+		if substr(prosedyre{i},1,5) in ('NFJ30','NFJ40','NFJ50','NFJ60','NFJ70','NFJ80','NFJ90') then Osteosyntese_Laarhals=1;
  		if substr(prosedyre{i},1,3) in ('NFB') then Protese=1;
 end;
 
@@ -40,16 +40,23 @@ run;
 data &datasett;
 set &datasett;
 
+array diagnose {*} Hdiag: Bdiag: Tdiag:;
+
+     do i=1 to dim(diagnose);
+         if substr(diagnose{i},1,3) in ('S72') then hoftebrudd_diag=1;
+     end;
+
 array prosedyre {*} NC:;
 	do i=1 to dim(prosedyre);
-		/*Primære hofteproteser*/
-       if SUBSTR(prosedyre{i},1,3)='NFB' then Hofteprotese=1;
+		/*Primære totalproteser hofte, der brudd er ekskludert*/
 
 		
-	   if SUBSTR(prosedyre{i},1,5) in ('NFB20', 'NFB30', 'NFB40','NFB99') then Hofteprotese_reg=1;
-
-
+	if SUBSTR(prosedyre{i},1,5) in ('NFB20', 'NFB30', 'NFB40','NFB99') then Hofteprotese_pros=1;
     end;  
+
+	if hoftebrudd_diag ne 1 and Hofteprotese_pros=1 then Hofteprotese_reg=1;
+
+
 run;
 
 %mend hofteprotese;
@@ -74,3 +81,23 @@ array prosedyre {*} NC:;
 run;
 
 %mend kneprotese;
+
+
+
+
+%macro brudd(datasett = );
+
+data &datasett;
+set &datasett;
+
+array prosedyre {*} NC:;
+	do i=1 to dim(diagnose);
+	 /*Alle brudd*/
+
+		if SUBSTR(diagnose{i},1,3) in ('S22','S32','S42','S52','S62','S72','S82','S92','T08','T10','T12') then brudd=1;
+
+	end;
+run;
+
+%mend brudd;
+

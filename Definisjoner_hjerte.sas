@@ -1,4 +1,5 @@
 
+/*hjertesvikt definisjon fra Nasjonal kvalitetsindikator*/
 %macro hjertesvikt(datasett = );
 
 data &datasett;
@@ -16,7 +17,21 @@ run;
 %mend hjertesvikt;
 
 
+/*hjertesvikt definisjon fra Hjertesviktregisteret*/
+%macro hjertesvikt(datasett = );
 
+data &datasett;
+set &datasett;
+
+array diagnose {*} Hdiag:;
+  do i=1 to dim(diagnose);
+    if substr(diagnose{i},1,3) in (-) then hjertesvikt=1;
+  end;
+
+run;
+
+
+%mend hjertesvikt;
 
 
 %macro hjerteinfrakt(datasett = );
