@@ -34,8 +34,8 @@ array diagnose {*} Hdiag: Tdiag:;
 
                 end;
 
-   array Bdiagnose {*} Bdiag:;
-	do i=1 to dim(Bdiagnose);
+   array bdiagnose {*} Bdiag:;
+	do i=1 to dim(bdiagnose);
                 /* kols */
           		if substr(Bdiagnose{i},1,3)='J44' then J44_B=1; 
 				/* kronisk bronkitt */
@@ -55,12 +55,15 @@ if R060_H=1 or J09_J11_H=1 or J12_18_H or J20_H=1 or J22_H=1 or J46_H=1 or J96_H
 if kols_H=1 or (andre_luftveis_H=1 and kols_B=1) then kols_alle=1;
 
 /* akuttinnlagt for kols */
-if kols_alle=1 and (liggetid>0 or utTilstand=2) and ohjelp=1 then kols_innl_akutt=1;
+if kols_alle=1 and (liggetid>0 or utTilstand=2) and ohjelp=1 and innlegg = 1 then kols_innl_akutt=1;
 
 lungebet = .;
 if J12_18_H = 1 and (kols_H ne 1 or kols_B ne 1) then lungebet = 1; 
 
-drop J2: J4: J9: R0: kols_alle andre_luftveis_H kols_H kols_B;
+drop J2: J4: J9: R0: J12: J09: kols_alle andre_luftveis_H kols_H kols_B;
+
+if lungebet = 1 and innlegg = 1 then lungebet_inn = 1;
+
 
 run;
 

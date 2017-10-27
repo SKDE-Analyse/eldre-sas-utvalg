@@ -1,47 +1,4 @@
-
-%macro bentetthet (datasett=);
-
-data &datasett;
-set &datasett;
-
-array prosedyre {*} NC:;
-  do i=1 to dim(prosedyre);
-    if substr(prosedyre{i},1,6) in ('NXFX05') then bentetthet=1;
-  end;
-
-
-%mend bentetthet;
-
-
-
-%macro gastroskopi (datasett=);
-
-data &datasett;
-set &datasett;
-
-array prosedyre {*} NC:;
-  do i=1 to dim(prosedyre);
-    if substr(prosedyre{i},1,6) in ('UJD02', 'UJD05') then gastroskopi=1;
-  end;
-
-
-%mend gastroskopi;
-
-
-
-%macro kolonskopi (datasett=);
-
-data &datasett;
-set &datasett;
-
-array prosedyre {*} NC:;
-  do i=1 to dim(prosedyre);
-    if substr(prosedyre{i},1,6) in ('UJF32', 'UJF35', 'UJF42', 'UJF45') then kolonskopi=1;
-  end;
-
-
-%mend kolonskopi;
-
+﻿
 
 
 %macro a_ekg(datasett = );
@@ -85,3 +42,26 @@ run;
 
 
 %mend ekko;
+
+%macro Holter(datasett = );
+
+data &datasett;
+set &datasett;
+
+array prosedyre {*} NC:;
+	do i=1 to dim(prosedyre);
+		if substr (prosedyre {i}, 1, 6) in ('FPFE15','FPFE30') then Holter= 1; 
+		/*	if substr (prosedyre {i}, 1, 6) in ('FPFE15') then Holter_gml= 1;  NÅ OGSÅ MED FPFE30 - LANGTIDS EKG */
+	end;
+	
+	array takst {15} Normaltariff:;
+	do k = 1 to 15;
+		if substr (takst {k}, 1,4) in ('129c','129g') then  Holter = 1; 
+/*		if substr (takst {k}, 1,4) in ('129c','129g') then  Holter_gml = 1; */
+	end;
+	
+run; 
+
+
+%mend Holter;
+
