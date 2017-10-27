@@ -27,8 +27,6 @@ drop  Andresykdommer_Hdiag: F02_Bdiag: ;
 
 if Kogn_svikt = 1 or demens = 1 then demens_KognSv = 1;
 
-if Demens_BDiag=1 or Demens=1 then Demens_m_BDIAG=1 ;
-
 run;
 
 %mend demens;
@@ -87,8 +85,6 @@ array diagnose {*} Hdiag: Tdiag:;
      end;
 
 if parkinson = 1 or parkinsonisme = 1 then parkinson_alt = 1;
-
-if Parkinson_bi=1 or Parkinson=1 then Parkinson_m_BDIAG=1;
 
 run;
 
